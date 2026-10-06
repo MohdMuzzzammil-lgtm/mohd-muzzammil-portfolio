@@ -209,7 +209,7 @@ function Index() {
           <div className="mt-10 grid gap-6 md:grid-cols-2">
             {[
               { img: companion, tag: "Robotics & Autonomy", t: "Autonomous Companion Robot", d: "Autonomous mobile companion platform engineered for navigation and interaction.", href: `${GITHUB}/Companion-Robot` },
-              { img: quadruped, tag: "R&D / Agri Robotics", t: "ASTRO-SAFL Quadruped", d: "Quadruped multi-terrain agricultural robotic system developed through university research.", href: "https://onerealti.github.io/astro-safl" },
+              { img: quadruped, tag: "R&D / Agri Robotics", t: "SAFL Quadruped", d: "Quadruped multi-terrain agricultural robotic system developed through university research.", href: "https://onerealti.github.io/astro-safl" },
             ].map((p) => (
               <article key={p.t} className="group">
                 <div className="overflow-hidden rounded-3xl bg-card">
