@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Github, Linkedin, Mail, Phone, MapPin, ArrowUpRight, Sparkles, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { CadViewer } from "@/components/CadViewer";
 import portrait from "@/assets/portrait-tshirt.png";
 // Images live in /public/img — BASE_URL makes the paths work under /<repo-name>/ on GitHub Pages
 const img = (f: string) => `${import.meta.env.BASE_URL}img/${f}`;
@@ -209,7 +210,7 @@ function Index() {
           <div className="mt-10 grid gap-6 md:grid-cols-2">
             {[
               { img: companion, tag: "Robotics & Autonomy", t: "Autonomous Companion Robot", d: "Autonomous mobile companion platform engineered for navigation and interaction.", href: `${GITHUB}/Companion-Robot` },
-              { img: quadruped, tag: "R&D / Agri Robotics", t: "SAFL Quadruped", d: "Quadruped multi-terrain agricultural robotic system developed through university research.", href: "https://onerealti.github.io/astro-safl" },
+              { img: quadruped, tag: "R&D / Agri Robotics", t: "ASTRO-SAFL Quadruped", d: "Quadruped multi-terrain agricultural robotic system developed through university research.", href: "https://onerealti.github.io/astro-safl" },
             ].map((p) => (
               <article key={p.t} className="group">
                 <div className="overflow-hidden rounded-3xl bg-card">
@@ -249,6 +250,14 @@ function Index() {
               </a>
             </div>
           </article>
+        </section>
+
+        {/* 3D MODELS */}
+        <section id="models">
+          <Pill>Interactive CAD</Pill>
+          <h2 className="mt-4 font-display text-6xl leading-none md:text-8xl">3D Models</h2>
+          <p className="mt-4 max-w-xl text-muted-foreground">Explore my designs in 3D. Rotate, zoom and pan to inspect every assembly.</p>
+          <div className="mt-8"><CadViewer /></div>
         </section>
 
         {/* WORKFLOW */}
