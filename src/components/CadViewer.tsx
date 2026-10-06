@@ -7,9 +7,9 @@ const base = import.meta.env.BASE_URL;
 const MODELS = [
   { file: "sae-baja.glb", label: "SAE BAJA Vehicle", note: "Full vehicle assembly" },
   { file: "safl-quadruped.glb", label: "SAFL Quadruped", note: "Agricultural quadruped robot" },
-  { file: "companion-robot.glb", label: "Companion Robot", note: "Autonomous companion platform" },
+  { file: "companion_robot.glb", label: "Companion Robot", note: "Autonomous companion platform" },
   { file: "final-design.glb", label: "Final Design Assembly", note: "Final design assembly" },
-  { file: "assem1.glb", label: "Assembly 1", note: "Assembly model" },
+  { file: "robocon-r1.glb", label: "Robocon R1 (2026)", note: "Robocon 2026 robot R1" },
 ];
 
 export function CadViewer() {
