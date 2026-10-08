@@ -13,24 +13,35 @@ export const FX = {
     oncePerSession: true,
     /** Photos that drop in. Add your own: put the file in /public/img and add a line here. */
     photos: [
-      { file: "award-stage.jpg", caption: "Design Award" },
-      { file: "robocon-r1.jpg", caption: "Robocon R1" },
-      { file: "baja-chassis.png", caption: "SAE BAJA" },
-      { file: "companion-2.jpg", caption: "Companion Bot" },
-      { file: "robocon-r2.jpg", caption: "Robocon R2" },
-      { file: "safl.jpg", caption: "ASTRO-SAFL" },
-      { file: "robocon-proto1.jpg", caption: "Prototype 1" },
-      { file: "robocon-proto2.jpg", caption: "Prototype 2" },
+      { file: "gallery/g01.jpg", caption: "Keynote" },
+      { file: "gallery/g02.jpg", caption: "Team" },
+      { file: "gallery/g03.jpg", caption: "Podium" },
+      { file: "gallery/g04.jpg", caption: "Medals" },
+      { file: "gallery/g05.jpg", caption: "On Stage" },
+      { file: "gallery/g06.jpg", caption: "Wiring" },
+      { file: "gallery/g07.jpg", caption: "Seminar" },
+      { file: "gallery/g08.jpg", caption: "Award" },
+      { file: "gallery/g09.jpg", caption: "Expo" },
+      { file: "gallery/g10.jpg", caption: "Award" },
+      { file: "gallery/g11.jpg", caption: "Expo" },
+      { file: "gallery/g12.jpg", caption: "Rover" },
+      { file: "gallery/g13.jpg", caption: "Quadruped" },
+      { file: "gallery/g14.jpg", caption: "Legs" },
+      { file: "gallery/g15.jpg", caption: "Winners" },
+      { file: "gallery/g16.jpg", caption: "Chassis" },
+      { file: "gallery/g17.jpg", caption: "Companion" },
+      { file: "gallery/g18.jpg", caption: "Companion" },
+      { file: "gallery/g19.jpg", caption: "Companion" },
     ] as IntroPhoto[],
     /** [columns, rows] of the invisible grid the photos scatter over. cols*rows = number of photos. */
-    gridDesktop: [4, 3] as [number, number],
-    gridPhone: [3, 4] as [number, number],
+    gridDesktop: [6, 4] as [number, number],
+    gridPhone: [3, 6] as [number, number],
     phoneMaxWidth: 640,
     /** Gap between one photo landing and the next one starting. */
-    dropEveryMs: 170,
+    dropEveryMs: 130,
     /** How long a single photo takes to fall. */
-    dropDurationMs: 650,
-    dropEase: "cubic-bezier(0.34, 1.3, 0.64, 1)", // slight overshoot = "thud"
+    dropDurationMs: 800,
+    dropEase: "cubic-bezier(0.22, 1.25, 0.36, 1)", // slight overshoot = "thud"
     /** Max random tilt in degrees (each photo gets 4..max, random sign). */
     maxTiltDeg: 16,
     /** Pause after the last photo before the title appears. */

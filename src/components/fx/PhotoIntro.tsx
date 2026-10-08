@@ -6,7 +6,7 @@ const SESSION_KEY = "fx-intro-seen";
 const imgUrl = (f: string) => `${import.meta.env.BASE_URL}img/${f}`;
 
 type Phase = "idle" | "dropping" | "title" | "exit" | "done";
-type Drop = { src: string; caption: string; left: number; top: number; rot: number; w: number };
+type Drop = { src: string; caption: string; left: number; top: number; rot: number; w: number; dy: string; spin: number; pos: string };
 
 const rand = (a: number, b: number) => a + Math.random() * (b - a);
 function shuffle<T>(arr: T[]): T[] {
@@ -29,7 +29,7 @@ function makeDrops(): Drop[] {
   const cellW = W / cols;
   const cellH = H / rows;
   // polaroid is ~1.2x taller than wide, so size it to overlap neighbours slightly
-  const w = Math.min(Math.max(cellW * 1.3, (cellH / 1.2) * 1.3), 320);
+  const w = Math.min(Math.max(cellW * 1.35, (cellH / 1.2) * 1.35), 300);
   const cells: { cx: number; cy: number }[] = [];
   for (let r = 0; r < rows; r++)
     for (let c = 0; c < cols; c++) cells.push({ cx: (c + 0.5) / cols, cy: (r + 0.5) / rows });
@@ -43,6 +43,10 @@ function makeDrops(): Drop[] {
       top: (cell.cy + rand(-0.35, 0.35) / rows) * 100,
       rot: (Math.random() < 0.5 ? -1 : 1) * rand(4, maxTiltDeg),
       w,
+      // alternate: cards slide UP from below, or drop from above
+      dy: i % 2 ? "115vh" : "-115vh",
+      spin: rand(14, 40) * (Math.random() < 0.5 ? -1 : 1),
+      pos: `50% ${Math.round(rand(15, 35))}%`,
     };
   });
 }
@@ -65,9 +69,11 @@ export function PhotoIntro() {
       /* private mode */
     }
     setPhase("exit");
+    window.setTimeout(() => document.documentElement.classList.add("fx-ready"), FX.intro.exitDurationMs * 0.45);
     timers.current.push(
       window.setTimeout(() => {
         document.documentElement.style.overflow = "";
+        document.documentElement.classList.add("fx-ready");
         setPhase("done");
       }, FX.intro.exitDurationMs),
     );
@@ -82,6 +88,7 @@ export function PhotoIntro() {
       /* ignore */
     }
     if (!I.enabled || seen || prefersReducedMotion()) {
+      document.documentElement.classList.add("fx-ready");
       setPhase("done");
       return;
     }
@@ -104,8 +111,14 @@ export function PhotoIntro() {
       () => {
         if (cancelled) return;
         setPhase("dropping");
-        list.forEach((_, i) => after(() => setShown(i + 1), i * I.dropEveryMs));
-        const allLanded = (list.length - 1) * I.dropEveryMs + I.dropDurationMs + I.beforeTitleMs;
+        // accelerating cadence: starts deliberate, ends in a rapid-fire cascade
+        let t = 0;
+        list.forEach((_, i) => {
+          const at = t;
+          after(() => setShown(i + 1), at);
+          t += I.dropEveryMs * (1.5 - (i / list.length) * 1.1);
+        });
+        const allLanded = t + I.dropDurationMs + I.beforeTitleMs;
         after(() => setPhase("title"), allLanded);
         const titleChars = I.title.join("").length;
         after(finish, allLanded + titleChars * I.titleLetterStaggerMs + I.titleHoldMs);
@@ -154,14 +167,20 @@ export function PhotoIntro() {
               top: `${d.top}%`,
               width: d.w,
               ["--r" as string]: `${d.rot}deg`,
+              ["--dy" as string]: d.dy,
+              ["--spin" as string]: `${d.spin}deg`,
             } as CSSProperties
           }
         >
-          <img src={d.src} alt="" decoding="async" draggable={false} />
+          <img src={d.src} alt="" decoding="async" draggable={false} style={{ objectPosition: d.pos }} />
           <figcaption>{d.caption}</figcaption>
         </figure>
       ))}
       <div className="fx-intro__shade" />
+      <div className="fx-intro__count" aria-hidden="true">
+        {String(Math.round((shown / Math.max(drops.length, 1)) * 100)).padStart(3, "0")}
+        <span>%</span>
+      </div>
       {(phase === "title" || phase === "exit") && (
         <p className="fx-intro__title" aria-label={I.title.join(" ")}>
           {I.title.map((word, w) => (
