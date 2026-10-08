@@ -2,7 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Github, Linkedin, Mail, Phone, MapPin, ArrowUpRight, Sparkles, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CadViewer } from "@/components/CadViewer";
-import portrait from "@/assets/portrait-tshirt.png";
+import { ScrollLitHeading } from "@/components/fx/ScrollLitHeading";
+import { CountUp } from "@/components/fx/CountUp";
+import { STATS } from "@/lib/fx-config";
 // Images live in /public/img — BASE_URL makes the paths work under /<repo-name>/ on GitHub Pages
 const img = (f: string) => `${import.meta.env.BASE_URL}img/${f}`;
 const SITE = "https://mohdmuzzzammil-lgtm.github.io/mohd-muzzammil-portfolio";
@@ -74,13 +76,11 @@ function Index() {
     <main className="min-h-screen bg-deep px-3 py-3 md:px-6 md:py-6">
       {/* HERO */}
       <section id="home" className="relative mx-auto flex max-w-7xl flex-col overflow-hidden rounded-[2rem] bg-background grid-lines md:block md:h-[92vh] md:min-h-[560px] md:max-h-[900px]">
-        <h1 className="relative z-10 px-2 pt-9 select-none text-center font-display text-[4.4rem] leading-[0.85] min-[400px]:text-[5rem] md:absolute md:inset-x-0 md:top-[8%] md:p-0 md:text-[15vw] xl:text-[13rem]">
+        <h1 className="relative z-10 px-2 pt-9 select-none text-center font-display text-[4.4rem] leading-[0.85] min-[400px]:text-[5rem] md:absolute md:inset-x-0 md:top-1/2 md:-translate-y-[58%] md:p-0 md:text-[15vw] xl:text-[13rem]">
           MOHD<br className="md:hidden" /> MUZZAMMIL
         </h1>
-        <div className="relative mt-[-0.5rem] h-[240px] min-[400px]:h-[280px] md:static">
-          <Ribbon className="z-10 md:hidden" d="M-40 260 C 200 120, 380 360, 560 170 S 900 -40, 1240 220" />
-          <img src={portrait} alt="Mohd Muzzammil" width={500} height={931}
-            className="portrait-outline absolute bottom-0 left-1/2 z-20 h-full w-auto max-w-none -translate-x-1/2 object-contain md:h-[64%] md:left-[60%] lg:left-1/2" />
+        <div className="relative mt-[-0.5rem] h-[170px] min-[400px]:h-[210px] md:hidden">
+          <Ribbon className="z-10" d="M-40 260 C 200 120, 380 360, 560 170 S 900 -40, 1240 220" />
         </div>
         <Ribbon className="z-10 hidden md:block" d="M-40 260 C 200 120, 380 360, 560 170 S 900 -40, 1240 220" />
         <Ribbon className="z-10 hidden md:block" d="M-40 560 C 220 600, 420 470, 600 540 S 980 600, 1240 520" />
@@ -120,12 +120,20 @@ function Index() {
         <section id="about">
           <Pill>About</Pill>
           <div className="mt-4 grid gap-8 md:grid-cols-2 md:items-end">
-            <h2 className="font-display text-6xl leading-none md:text-8xl">Engineering<br />Foundations</h2>
+            <ScrollLitHeading dim="Engineering" lit="Foundations" className="font-display text-6xl leading-none md:text-8xl" />
             <p className="text-muted-foreground">
               Pursuing a B.E. in Mechanical Engineering at Muffakham Jah College of Engineering and Technology (MJCET, Class of 2028). A CSWP-certified designer who turns kinematic ideas into machines that work on the field.
             </p>
           </div>
-          <div className="mt-10 grid gap-4 md:grid-cols-3">
+          <div className="mt-10 grid grid-cols-3 gap-3 md:gap-4">
+            {STATS.map((st, i) => (
+              <div key={st.label} className="rounded-3xl border border-border p-4 text-center md:p-8">
+                <CountUp to={st.value} suffix={st.suffix} delayMs={i * 150} className="block font-display text-5xl leading-none text-primary md:text-8xl" />
+                <p className="mt-2 text-[11px] font-medium uppercase tracking-wider text-muted-foreground md:text-sm">{st.label}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-6 grid gap-4 md:grid-cols-3">
             {[
               ["CAD & Mechanism Design", "CSWP (Certified SOLIDWORKS Professional), complex assemblies, generative layouts and tolerance stack-ups."],
               ["Prototyping & Fabrication", "Additive manufacturing, rapid prototyping, sheet metal and physical fabrication."],
@@ -153,7 +161,7 @@ function Index() {
         <section id="baja">
           <Pill>SAE BAJA MJCET</Pill>
           <div className="mt-4 grid gap-8 md:grid-cols-2 md:items-end">
-            <h2 className="font-display text-6xl leading-none md:text-8xl">Off-Road<br />Vehicle Design</h2>
+            <ScrollLitHeading dim="Off-Road" lit="Vehicle Design" className="font-display text-6xl leading-none md:text-8xl" />
             <p className="text-muted-foreground">
               Working as a Junior Designer with Team SAE BAJA MJCET — modeling the roll-cage chassis and vehicle subsystems for an all-terrain competition buggy.
             </p>
@@ -181,7 +189,7 @@ function Index() {
         {/* EXPERIENCE */}
         <section id="experience">
           <Pill>Leadership</Pill>
-          <h2 className="mt-4 font-display text-6xl leading-none md:text-8xl">Experience</h2>
+          <ScrollLitHeading dim="Experience" className="mt-4 font-display text-6xl leading-none md:text-8xl" />
           <div className="mt-10 grid gap-4 md:grid-cols-2">
             {[
               ["Design Head", "Team Robocon MJCET", "Overseeing mechanism engineering and CAD development for ABU Robocon competition machines."],
@@ -204,7 +212,7 @@ function Index() {
         <section id="projects">
           <Pill>Project</Pill>
           <div className="mt-4 grid gap-6 md:grid-cols-2 md:items-end">
-            <h2 className="font-display text-6xl leading-none md:text-8xl">Featured Builds</h2>
+            <ScrollLitHeading dim="Featured" lit="Builds" breakAfterDim={false} className="font-display text-6xl leading-none md:text-8xl" />
             <p className="text-muted-foreground">Robots and mechanisms taken from sketch and kinematics through CAD, fabrication and field testing.</p>
           </div>
           <div className="mt-10 grid gap-6 md:grid-cols-2">
@@ -255,7 +263,7 @@ function Index() {
         {/* 3D MODELS */}
         <section id="models">
           <Pill>Interactive CAD</Pill>
-          <h2 className="mt-4 font-display text-6xl leading-none md:text-8xl">3D Models</h2>
+          <ScrollLitHeading dim="3D" lit="Models" breakAfterDim={false} className="mt-4 font-display text-6xl leading-none md:text-8xl" />
           <p className="mt-4 max-w-xl text-muted-foreground">Explore my designs in 3D. Rotate, zoom and pan to inspect every assembly.</p>
           <div className="mt-8"><CadViewer /></div>
         </section>
@@ -263,7 +271,7 @@ function Index() {
         {/* WORKFLOW */}
         <section>
           <Pill>Engineering Workflow</Pill>
-          <h2 className="mt-4 font-display text-6xl leading-none md:text-8xl">How I Build</h2>
+          <ScrollLitHeading dim="How I" lit="Build" breakAfterDim={false} className="mt-4 font-display text-6xl leading-none md:text-8xl" />
           <div className="mt-10 grid gap-4 md:grid-cols-3">
             {[
               ["Concept & Kinematics", "Mathematical formulation, mechanism synthesis and preliminary kinematic studies."],

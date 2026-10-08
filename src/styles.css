@@ -123,17 +123,84 @@
   }
 }
 
-/* Portrait cutout outline */
-.portrait-outline {
-  filter:
-    drop-shadow(0.75px 0 0 rgba(255, 255, 255, 0.75))
-    drop-shadow(-0.75px 0 0 rgba(255, 255, 255, 0.75))
-    drop-shadow(0 0.75px 0 rgba(255, 255, 255, 0.75))
-    drop-shadow(0 -0.75px 0 rgba(255, 255, 255, 0.75))
-    drop-shadow(0 24px 60px rgba(0, 0, 0, 0.5));
-}
-
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .ribbon-draw { animation: none; stroke-dashoffset: 0; }
+}
+
+/* ───────────────────────── FX: photo-drop intro ───────────────────────── */
+.fx-intro {
+  position: fixed; inset: 0; z-index: 100; overflow: hidden;
+  background: var(--deep); cursor: pointer;
+  will-change: transform;
+}
+.fx-intro--exit { animation: fx-exit var(--exit-dur) var(--exit-ease) forwards; pointer-events: none; }
+@keyframes fx-exit { to { transform: translate3d(0, -100%, 0); } }
+
+.fx-polaroid {
+  position: absolute; margin: 0; padding: 6% 6% 0; background: #f4f4f0;
+  box-shadow: 0 14px 40px rgb(0 0 0 / 0.55);
+  transform: translate3d(-50%, -50%, 0) rotate(var(--r));
+  animation: fx-drop var(--drop-dur) var(--drop-ease) both;
+  will-change: transform;
+}
+.fx-polaroid img {
+  display: block; width: 100%; aspect-ratio: 1; object-fit: cover; background: #111;
+  filter: grayscale(1) contrast(1.1); user-select: none; -webkit-user-drag: none;
+}
+.fx-polaroid figcaption {
+  padding: 9% 0 10%; text-align: center; color: #111; font-family: var(--font-display);
+  font-size: clamp(0.8rem, 2.2vw, 1.15rem); letter-spacing: 0.08em; text-transform: uppercase; line-height: 1;
+}
+@keyframes fx-drop {
+  from { transform: translate3d(-50%, calc(-50% - 120vh), 0) rotate(calc(var(--r) + 28deg)); }
+  to   { transform: translate3d(-50%, -50%, 0) rotate(var(--r)); }
+}
+
+.fx-intro__shade { position: absolute; inset: 0; background: oklch(0.12 0.03 232 / 0); transition: background 0.5s ease; pointer-events: none; }
+.fx-intro--title .fx-intro__shade, .fx-intro--exit .fx-intro__shade { background: oklch(0.12 0.03 232 / 0.72); }
+
+.fx-intro__title {
+  position: absolute; inset: 0; z-index: 2; margin: 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; font-family: var(--font-display);
+  font-size: clamp(4.2rem, 17vw, 15rem); line-height: 0.85; text-align: center; color: #fff; pointer-events: none;
+}
+@media (min-width: 900px) { .fx-intro__title { flex-direction: row; gap: 0.25em; } }
+.fx-intro__word { display: inline-block; overflow: hidden; padding-top: 0.06em; }
+.fx-intro__ch { display: inline-block; transform: translate3d(0, 110%, 0); animation: fx-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+@keyframes fx-rise { to { transform: translate3d(0, 0, 0); } }
+
+.fx-intro__skip {
+  position: absolute; z-index: 3; right: 1rem; bottom: 1rem; padding: 0.5rem 1rem; border-radius: 999px;
+  border: 1px solid oklch(1 0 0 / 0.25); background: oklch(0.16 0.03 232 / 0.6); color: #fff; font-size: 0.8rem;
+  letter-spacing: 0.08em; text-transform: uppercase; backdrop-filter: blur(6px);
+}
+.fx-intro__skip:hover { background: var(--primary); color: var(--primary-foreground); }
+
+/* ───────────────────────── FX: custom cursor ───────────────────────── */
+html.fx-cursor-on, html.fx-cursor-on * { cursor: none !important; }
+.fx-cursor { position: fixed; top: 0; left: 0; z-index: 300; pointer-events: none; will-change: transform; }
+.fx-cursor__dot {
+  border-radius: 50%; background: #fff; opacity: 0; transform: scale(1);
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease;
+}
+.fx-cursor__dot.is-visible { opacity: 1; }
+.fx-cursor__dot.is-hover { transform: scale(var(--hover-scale, 3)); }
+.fx-cursor__dot.is-down { transform: scale(0.7); }
+.fx-cursor__dot.is-hover.is-down { transform: scale(calc(var(--hover-scale, 3) * 0.8)); }
+
+/* ───────────────────────── FX: scroll-lit headings ───────────────────────── */
+.sl-letter {
+  /* each letter lights up in sequence as --p goes 0 → 1 */
+  color: color-mix(
+    in oklab,
+    var(--sl-lit, #fff) calc(clamp(0, (var(--p, 0) * (var(--n) + var(--soft, 4)) - var(--i)) / var(--soft, 4), 1) * 100%),
+    var(--sl-dim, oklch(0.46 0.03 235))
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sl { --p: 1 !important; }
+  .fx-intro { display: none; }
+  .fx-cursor__dot { transition: none; }
 }
