@@ -34,18 +34,20 @@ export const FX = {
       { file: "gallery/g19.jpg", caption: "Companion" },
     ] as IntroPhoto[],
     /** [columns, rows] of the invisible grid the photos scatter over. cols*rows = number of photos. */
-    gridDesktop: [6, 4] as [number, number],
-    gridPhone: [3, 6] as [number, number],
+    gridDesktop: [8, 5] as [number, number],
+    gridPhone: [4, 7] as [number, number],
     phoneMaxWidth: 640,
     /** Gap between one photo landing and the next one starting. */
-    dropEveryMs: 130,
+    dropEveryMs: 34,
     /** How long a single photo takes to fall. */
-    dropDurationMs: 800,
+    /** one card sits alone in the centre for this long, then the wall fills in */
+    deckHoldMs: 750,
+    dropDurationMs: 300,
     dropEase: "cubic-bezier(0.22, 1.25, 0.36, 1)", // slight overshoot = "thud"
     /** Max random tilt in degrees (each photo gets 4..max, random sign). */
     maxTiltDeg: 16,
     /** Pause after the last photo before the title appears. */
-    beforeTitleMs: 350,
+    beforeTitleMs: 450,
     /** How long the title stays on screen before the intro slides away. */
     titleHoldMs: 1500,
     /** Delay between title letters rising in. */

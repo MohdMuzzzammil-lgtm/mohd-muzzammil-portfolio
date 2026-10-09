@@ -138,11 +138,10 @@
 @keyframes fx-exit { to { transform: translate3d(0, -105%, 0); } }
 
 .fx-polaroid {
-  position: absolute; margin: 0; padding: 6% 6% 0; background: #f4f4f0;
+  position: absolute; margin: 0; padding: calc(var(--w, 200px) * 0.055) calc(var(--w, 200px) * 0.055) 0; box-sizing: border-box; background: #f4f4f0;
   box-shadow: 0 14px 40px rgb(0 0 0 / 0.55);
   transform: translate3d(-50%, -50%, 0) rotate(var(--r));
-  animation: fx-drop var(--drop-dur) var(--drop-ease) both;
-  will-change: transform;
+  opacity: 0; will-change: transform;
 }
 .fx-polaroid img {
   display: block; width: 100%; aspect-ratio: 1; object-fit: cover; background: #111;
@@ -150,7 +149,7 @@
 }
 .fx-polaroid figcaption {
   padding: 9% 0 10%; text-align: center; color: #111; font-family: var(--font-display);
-  font-size: clamp(0.8rem, 2.2vw, 1.15rem); letter-spacing: 0.08em; text-transform: uppercase; line-height: 1;
+  font-size: calc(var(--w, 200px) * 0.075); letter-spacing: 0.08em; text-transform: uppercase; line-height: 1;
 }
 @keyframes fx-drop {
   0%   { opacity: 0; transform: translate3d(-50%, calc(-50% + var(--dy)), 0) rotate(calc(var(--r) + var(--spin))) scale(0.85); }
@@ -158,32 +157,32 @@
   100% { opacity: 1; transform: translate3d(-50%, -50%, 0) rotate(var(--r)) scale(1); }
 }
 .fx-polaroid img { transition: filter 0.6s ease; }
-.fx-intro--title .fx-polaroid, .fx-intro--exit .fx-polaroid { animation: fx-drop var(--drop-dur) var(--drop-ease) both, fx-sway 3s ease-in-out infinite alternate; }
-@keyframes fx-sway { to { transform: translate3d(-50%, -52%, 0) rotate(calc(var(--r) * 0.8)) scale(1.03); } }
+@keyframes fx-sway { to { translate: 0 -1.5%; scale: 1.03; } }
 .fx-intro__count {
   position: absolute; left: 1.25rem; bottom: 0.9rem; z-index: 3; font-family: var(--font-display);
   font-size: clamp(2.5rem, 7vw, 5rem); line-height: 1; color: #fff; mix-blend-mode: difference; pointer-events: none;
 }
 .fx-intro__count span { font-size: 0.45em; margin-left: 0.1em; }
 
-.fx-intro__shade { position: absolute; inset: 0; background: oklch(0.12 0.03 232 / 0); transition: background 0.5s ease; pointer-events: none; }
-.fx-intro--title .fx-intro__shade, .fx-intro--exit .fx-intro__shade { background: oklch(0.12 0.03 232 / 0.72); }
+.fx-intro__shade { position: absolute; inset: 0; z-index: 150; background: oklch(0.12 0.03 232 / 0); transition: background 0.5s ease; pointer-events: none; }
+.fx-intro--title .fx-intro__shade, .fx-intro--exit .fx-intro__shade { background: oklch(0.12 0.03 232 / 0.45); }
 
 .fx-intro__title {
-  position: absolute; inset: 0; z-index: 2; margin: 0; display: flex; flex-direction: column;
+  position: absolute; inset: 0; z-index: 300; margin: 0; display: flex; flex-direction: column; text-shadow: 0 8px 40px rgb(0 0 0 / 0.55);
   align-items: center; justify-content: center; font-family: var(--font-display);
-  font-size: clamp(4.2rem, 17vw, 15rem); line-height: 0.85; text-align: center; color: #fff; pointer-events: none;
+  font-size: clamp(3rem, 15vw, 15rem); line-height: 0.85; text-align: center; color: #fff; pointer-events: none;
 }
-@media (min-width: 900px) { .fx-intro__title { flex-direction: row; gap: 0.25em; } }
-.fx-intro__word { display: inline-block; overflow: hidden; padding-top: 0.06em; }
+@media (min-width: 900px) { .fx-intro__title { flex-direction: row; gap: 0.25em; font-size: min(11vw, 15rem); } }
+.fx-intro__word { display: inline-block; overflow: hidden; padding-top: 0.06em; white-space: nowrap; }
 .fx-intro__ch { display: inline-block; transform: translate3d(0, 110%, 0); animation: fx-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
 @keyframes fx-rise { to { transform: translate3d(0, 0, 0); } }
 
 .fx-intro__skip {
-  position: absolute; z-index: 3; right: 1rem; bottom: 1rem; padding: 0.5rem 1rem; border-radius: 999px;
+  position: absolute; z-index: 400; right: 1rem; bottom: 1rem; padding: 0.5rem 1rem; border-radius: 999px;
   border: 1px solid oklch(1 0 0 / 0.25); background: oklch(0.16 0.03 232 / 0.6); color: #fff; font-size: 0.8rem;
   letter-spacing: 0.08em; text-transform: uppercase; backdrop-filter: blur(6px);
 }
+.fx-intro__sound { right: auto; left: auto; bottom: 1rem; right: 6rem; }
 .fx-intro__skip:hover { background: var(--primary); color: var(--primary-foreground); }
 
 /* ───────────────────────── FX: custom cursor ───────────────────────── */
@@ -217,7 +216,7 @@ html.fx-cursor-on, html.fx-cursor-on * { cursor: none !important; }
 .rv-scale { transform: scale(0.82); }
 .rv-clip { opacity: 1; filter: none; transform: none; clip-path: inset(100% 0 0 0 round 1.5rem); transition: clip-path 1.2s cubic-bezier(0.77,0,0.18,1); transition-delay: var(--d, 0ms); }
 .rv.is-in { opacity: 1; transform: none; filter: none; }
-.rv-clip.is-in { clip-path: inset(0 0 0 0 round 1.5rem); }
+.is-in > .rv-clip { clip-path: inset(0 0 0 0 round 1.5rem); }
 
 /* hero entrance (waits for the intro curtain) */
 .hero-in { opacity: 0; transform: translate3d(0, 40px, 0); }

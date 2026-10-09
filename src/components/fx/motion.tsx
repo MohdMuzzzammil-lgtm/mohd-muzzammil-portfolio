@@ -12,10 +12,20 @@ export function Reveal({ children, className = "", delay = 0, variant = "up", as
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    if (typeof IntersectionObserver === "undefined") { el.classList.add("is-in"); return; }
     const io = new IntersectionObserver(([e]) => { if (e?.isIntersecting) { el.classList.add("is-in"); io.disconnect(); } }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
     io.observe(el);
     return () => io.disconnect();
   }, []);
+  // "clip" variant: the observed wrapper is never clipped (a clipped element can't be seen by IntersectionObserver,
+  // which left whole sections invisible on phones); the clip is applied to an inner element instead.
+  if (variant === "clip") {
+    return (
+      <Tag ref={ref} className={className}>
+        <div className="rv-clip" style={{ "--d": `${delay}ms` } as CSSProperties}>{children}</div>
+      </Tag>
+    );
+  }
   return <Tag ref={ref} className={`${vcls[variant]} ${className}`} style={{ "--d": `${delay}ms` } as CSSProperties}>{children}</Tag>;
 }
 

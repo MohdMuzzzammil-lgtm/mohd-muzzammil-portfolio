@@ -136,7 +136,7 @@ function Index() {
       {/* HERO */}
       <section ref={heroRef} onPointerMove={spot} id="home" className="relative mx-auto flex max-w-7xl flex-col overflow-hidden rounded-[2rem] bg-background grid-lines md:block md:h-[92vh] md:min-h-[560px] md:max-h-[900px]">
         <div className="hero-spot" />
-        <h1 ref={titleRef} onPointerMove={tilt} onPointerLeave={untilt} aria-label="Mohd Muzzammil" className="hero-tilt relative z-10 px-2 pt-9 select-none text-center font-display text-[4.4rem] leading-[0.85] min-[400px]:text-[5rem] md:absolute md:inset-x-0 md:top-1/2 md:-translate-y-[58%] md:p-0 md:text-[15vw] xl:text-[13rem]">
+        <h1 ref={titleRef} onPointerMove={tilt} onPointerLeave={untilt} aria-label="Mohd Muzzammil" className="hero-tilt relative z-30 px-2 pt-9 select-none text-center font-display text-[4.4rem] leading-[0.85] min-[400px]:text-[5rem] md:absolute md:inset-x-0 md:top-1/2 md:-translate-y-[58%] md:p-0 md:text-[15vw] xl:text-[13rem]">
           <HeroTitle text="MOHD MUZZAMMIL" base={150} />
         </h1>
         <div className="relative mt-[-0.5rem] h-[190px] min-[400px]:h-[220px] md:hidden">
